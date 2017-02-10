@@ -1,0 +1,82 @@
+﻿@using WebApplication2.Models
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet"/> 
+
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-3 col-md-6">
+                <form action="Index" method="post" role="form">
+                    <div class="form-group">
+                        <label class="control-label" for="exampleinputid">User Id</label>
+                        <input type="text" class="form-control" id="Id" name="Id" placeholder="Enter id" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="exampleinputname">User Name</label>
+                        <input type="text" class="form-control" id="Name" name="Name" placeholder="Enter Name" />
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+
+
+                </form>
+            </div>
+        </div>
+
+    <br />
+        <br />
+        <div class="col-md-12">
+
+            <table class="table table-bordered">
+
+                <tr>
+                    <td>RowKey</td>
+                    <td>PartitionKey</td>
+                    <td>Id</td>
+                    <td>Name</td>
+                    <td>Delete</td>
+
+                 </tr>
+
+                @foreach (var item in (IEnumerable<UserEntity>)ViewBag.userList)
+                {
+                    <tr>
+                        <td>@item.RowKey</td>
+                        <td>@item.PartitionKey</td>
+                        <td>@item.Id</td>
+                        <td>@item.Name</td>
+                        <td>
+                            @using (Html.BeginForm("Delete", "AzureTable", FormMethod.Post))
+                            {
+                                @Html.Hidden("RowKey", item.RowKey)
+                                @Html.Hidden("PartitionKey",item.PartitionKey)
+
+                                <input class="btn btn-default btn-sm" id="submit1" type="submit" value="Del"/>
+
+                            }
+                        </td>
+
+
+                    </tr>
+                    }
+
+
+
+            </table>
+
+
+
+        </div>
+    </div>
+</body>
+</html>
